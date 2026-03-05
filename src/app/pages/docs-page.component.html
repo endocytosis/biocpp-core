@@ -1,0 +1,110 @@
+<div class="docs-page">
+  <div class="docs-header">
+    <h1 class="docs-title">CLI Documentation</h1>
+    <p class="docs-subtitle">
+      Complete reference for all available commands in the BioCPP Angular CLI
+    </p>
+  </div>
+
+  <div class="toc">
+    <h3 class="toc-title">Contents</h3>
+    <div class="toc-links">
+      @for (section of sections; track section.title) {
+        <a [href]="'#' + section.title.toLowerCase().replace(' ', '-')" class="toc-link">
+          {{ section.title }}
+        </a>
+      }
+    </div>
+  </div>
+
+  @for (section of sections; track section.title) {
+    <section class="doc-section" [id]="section.title.toLowerCase().replace(' ', '-')">
+      <h2 class="section-title">{{ section.title }}</h2>
+
+      @for (cmd of section.commands; track cmd.syntax) {
+        <div class="command-card">
+          <div class="command-syntax">
+            <code>{{ cmd.syntax }}</code>
+          </div>
+          <p class="command-desc">{{ cmd.description }}</p>
+
+          <div class="command-examples">
+            <div class="examples-label">Examples:</div>
+            @for (ex of cmd.examples; track ex) {
+              <div class="example-line">
+                <code>&gt; {{ ex }}</code>
+              </div>
+            }
+          </div>
+
+          @if (cmd.notes && cmd.notes.length > 0) {
+            <div class="command-notes">
+              @for (note of cmd.notes; track note) {
+                <div class="note-line">{{ note }}</div>
+              }
+            </div>
+          }
+        </div>
+      }
+    </section>
+  }
+
+  <section class="doc-section">
+    <h2 class="section-title">Keyboard Shortcuts</h2>
+    <div class="command-card">
+      <div class="shortcut-grid">
+        <div class="shortcut-item">
+          <kbd>Enter</kbd>
+          <span>Execute command</span>
+        </div>
+        <div class="shortcut-item">
+          <kbd>Up Arrow</kbd>
+          <span>Previous command from history</span>
+        </div>
+        <div class="shortcut-item">
+          <kbd>Down Arrow</kbd>
+          <span>Next command from history</span>
+        </div>
+        <div class="shortcut-item">
+          <kbd>Tab</kbd>
+          <span>Auto-complete command name</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2 class="section-title">BioCPP Equivalence</h2>
+    <div class="command-card">
+      <p class="command-desc">
+        This CLI mirrors the core functionality of the BioCPP C++ library. Here is the mapping:
+      </p>
+      <div class="equivalence-table">
+        <div class="equiv-row equiv-header">
+          <div class="equiv-cell">C++ (BioCPP)</div>
+          <div class="equiv-cell">CLI Command</div>
+        </div>
+        <div class="equiv-row">
+          <div class="equiv-cell"><code>"GATTACA"_dna4</code></div>
+          <div class="equiv-cell"><code>seq GATTACA dna4</code></div>
+        </div>
+        <div class="equiv-row">
+          <div class="equiv-cell"><code>seq | bio::views::translate</code></div>
+          <div class="equiv-cell"><code>translate</code></div>
+        </div>
+        <div class="equiv-row">
+          <div class="equiv-cell"><code>seq | bio::views::translate_single(FWD_FRAME_0)</code></div>
+          <div class="equiv-cell"><code>translate f0</code></div>
+        </div>
+        <div class="equiv-row">
+          <div class="equiv-cell"><code>seq | bio::views::complement</code></div>
+          <div class="equiv-cell"><code>complement</code></div>
+        </div>
+        <div class="equiv-row">
+          <div class="equiv-cell"><code>bio::alphabet::dna4</code></div>
+          <div class="equiv-cell"><code>alphabet dna4</code></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

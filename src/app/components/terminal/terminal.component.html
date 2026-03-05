@@ -1,0 +1,36 @@
+<div class="terminal" (click)="focusInput()">
+  <div class="terminal-header">
+    <div class="terminal-dots">
+      <span class="dot dot-red"></span>
+      <span class="dot dot-yellow"></span>
+      <span class="dot dot-green"></span>
+    </div>
+    <span class="terminal-title">BioCPP Angular CLI</span>
+    <div class="terminal-dots-placeholder"></div>
+  </div>
+  <div class="terminal-body" #terminalBody>
+    @for (line of lines; track $index) {
+      @if (line.type === 'divider') {
+        <div class="line line-divider"></div>
+      } @else {
+        <div class="line" [ngClass]="getLineClass(line)">
+          <pre>{{ line.text }}</pre>
+        </div>
+      }
+    }
+    <div class="input-line">
+      <span class="prompt">&gt;&nbsp;</span>
+      <input
+        #inputField
+        type="text"
+        class="terminal-input"
+        [(ngModel)]="currentInput"
+        (keydown.enter)="onSubmit()"
+        (keydown)="onKeyDown($event)"
+        spellcheck="false"
+        autocomplete="off"
+        autofocus
+      />
+    </div>
+  </div>
+</div>

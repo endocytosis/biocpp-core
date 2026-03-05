@@ -1,0 +1,59 @@
+<div class="codon-page">
+  <div class="page-header">
+    <h1 class="page-title">Standard Genetic Code</h1>
+    <p class="page-subtitle">
+      The codon table maps 64 nucleotide triplets to 20 amino acids and 3 stop codons
+    </p>
+  </div>
+
+  <div class="codon-grid-container">
+    <table class="codon-table">
+      <thead>
+        <tr>
+          <th class="axis-header">1st</th>
+          <th class="axis-header">2nd</th>
+          @for (third of bases; track third) {
+            <th class="third-header">{{ third }}</th>
+          }
+          <th class="axis-header">1st</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (firstGroup of codonGrid; track $index; let fi = $index) {
+          @for (secondGroup of firstGroup; track $index; let si = $index) {
+            <tr>
+              @if (si === 0) {
+                <td class="first-base" [attr.rowspan]="4">{{ bases[fi] }}</td>
+              }
+              <td class="second-base">{{ bases[si] }}</td>
+              @for (entry of secondGroup; track entry.codon) {
+                <td
+                  class="codon-cell"
+                  [class.highlighted]="isHighlighted(entry)"
+                  [class.dimmed]="isDimmed(entry)"
+                  (click)="toggleAaFilter(entry.aminoAcid)"
+                >
+                  <div class="codon-code">{{ entry.codon }}</div>
+                  <div class="codon-aa" [style.color]="getAaColor(entry.aminoAcid)">
+                    {{ entry.aminoAcid }}
+                  </div>
+                  <div class="codon-name">{{ entry.name }}</div>
+                </td>
+              }
+              @if (si === 0) {
+                <td class="first-base" [attr.rowspan]="4">{{ bases[fi] }}</td>
+              }
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+
+  @if (selectedAa) {
+    <div class="filter-badge" (click)="selectedAa = null">
+      Filtering: <strong>{{ selectedAa }}</strong> ({{ bio.getAminoAcidName(selectedAa) }})
+      <span class="filter-clear">clear</span>
+    </div>
+  }
+</div>
